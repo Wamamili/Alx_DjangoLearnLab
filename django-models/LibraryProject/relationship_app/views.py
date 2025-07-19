@@ -1,16 +1,11 @@
 # relationship_app/views.py
 from django.shortcuts import render
-from .models import Book, Library
 from django.views.generic.detail import DetailView
+from .models import Book, Library  # ✅ This line includes both models
 
 # Function-based view to list all books
 def list_books(request):
-    # Option 1: With select_related (better performance if accessing author info)
-    books = Book.objects.select_related('author').all()
-
-    # Option 2: Basic version using Book.objects.all()
-    # books = Book.objects.all()
-
+    books = Book.objects.all()  # Or use select_related('author') for performance
     return render(request, 'relationship_app/list_books.html', {'books': books})
 
 # Class-based view to show a library and its books
