@@ -1,3 +1,4 @@
+from .views import list_books
 from django.contrib.auth.decorators import permission_required
 from django.shortcuts import render, redirect
 from django.views.generic.detail import DetailView
