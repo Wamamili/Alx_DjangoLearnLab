@@ -12,7 +12,6 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages
 from .models import Book, Author
 from .models import Library
-from .views import list_books
 # from .forms import BookForm  # Removed: BookForm is defined below
 
 from .models import Book, Library
@@ -58,10 +57,16 @@ def logout_view(request):
 
 # Book Listing (Login required)
 @login_required
-def list_books(request):
-    books = Book.objects.all()
-    return render(request, 'relationship_app/list_books.html', {'books': books})
+class LibraryDetailView(DetailView):
+    model = Library
+    template_name = 'relationship_app/library_detail.html'
+    context_object_name = 'library'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Add related books to the context
+        context['books'] = self.object.book_set.all()
+        return context
 
 # Library Detail View (Login required)
 @method_decorator(login_required, name='dispatch')
