@@ -5,6 +5,11 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.contrib import messages
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib import messages
+from .models import Book, Author
+# from .forms import BookForm  # Removed: BookForm is defined below
 
 from .models import Book, Library
 
@@ -87,3 +92,46 @@ def librarian_dashboard(request):
 @user_passes_test(is_member)
 def member_dashboard(request):
     return render(request, 'relationship_app/member_view.html')
+
+
+# Create View
+@permission_required('relationship_app.can_add_book', raise_exception=True)
+def add_book(request):
+    if request.method == 'POST':
+        form = BookForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Book added successfully.")
+            return redirect('list_books')
+    else:
+        form = BookForm()
+    return render(request, 'relationship_app/add_book.html', {'form': form})
+
+# Update View
+@permission_required('relationship_app.can_change_book', raise_exception=True)
+def edit_book(request, pk):
+    book = get_object_or_404(Book, pk=pk)
+    form = BookForm(request.POST or None, instance=book)
+    if form.is_valid():
+        form.save()
+        messages.success(request, "Book updated successfully.")
+        return redirect('list_books')
+    return render(request, 'relationship_app/edit_book.html', {'form': form})
+
+# Delete View
+@permission_required('relationship_app.can_delete_book', raise_exception=True)
+def delete_book(request, pk):
+    book = get_object_or_404(Book, pk=pk)
+    if request.method == 'POST':
+        book.delete()
+        messages.success(request, "Book deleted.")
+        return redirect('list_books')
+    return render(request, 'relationship_app/delete_book_confirm.html', {'book': book})
+
+from django import forms
+from .models import Book
+
+class BookForm(forms.ModelForm):
+    class Meta:
+        model = Book
+        fields = '__all__'

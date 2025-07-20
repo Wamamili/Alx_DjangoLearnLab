@@ -9,7 +9,10 @@ urlpatterns = [
     path('librarian-area/', librarian_view.librarian_dashboard, name='librarian_view'),
     path('member-area/', views.member_dashboard, name='member_view'),
     path('register/', views.register_view, name='register'),
-
+    path('books/add/', views.add_book, name='add_book'),
+    path('books/edit/<int:pk>/', views.edit_book, name='edit_book'),
+    path('books/delete/<int:pk>/', views.delete_book, name='delete_book'),
+    
     # Authentication URLs
     path('login/', LoginView.as_view(template_name='relationship_app/login.html'), name='login'),
     path('logout/', LogoutView.as_view(template_name='relationship_app/logout.html'), name='logout'),
