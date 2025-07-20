@@ -3,6 +3,7 @@ from django.contrib.auth.views import LoginView, LogoutView
 
 from relationship_app.views import admin_view, librarian_view, member_view
 from . import views
+from .views import list_books
 
 urlpatterns = [
     path('admin-area/', admin_view.admin_dashboard, name='admin_view'),
