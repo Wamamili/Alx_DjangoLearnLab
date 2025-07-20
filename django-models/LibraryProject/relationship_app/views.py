@@ -10,6 +10,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages
 from .models import Book, Author
+from .models import Library
 # from .forms import BookForm  # Removed: BookForm is defined below
 
 from .models import Book, Library
