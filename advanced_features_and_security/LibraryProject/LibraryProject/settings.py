@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'bookshelf',  # This is the app for managing books
+   # 'relationship_app', This is the app for managing relationships'
 ]
 
 AUTH_USER_MODEL = 'bookshelf.CustomUser'  # Use the custom user model
