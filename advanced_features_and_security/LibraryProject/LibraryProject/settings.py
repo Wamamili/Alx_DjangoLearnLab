@@ -26,11 +26,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'bookshelf',  # This is the app for managing books
-    'authuser',  # This is the app for managing user authentication
-
 ]
 
-AUTH_USER_MODEL = 'authuser.CustomUser'  # Use the custom user model
+AUTH_USER_MODEL = 'bookshelf.CustomUser'  # Use the custom user model
 
 #LOGIN_URL = 'login'
 #LOGIN_REDIRECT_URL = 'home'
