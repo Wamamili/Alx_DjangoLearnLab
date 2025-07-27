@@ -53,7 +53,7 @@ SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_BROWSER_XSS_FILTER = True
 # Content Security Policy (CSP) settings
 
-
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')  # For handling HTTPS in reverse proxies
 
 # Application definition
 
