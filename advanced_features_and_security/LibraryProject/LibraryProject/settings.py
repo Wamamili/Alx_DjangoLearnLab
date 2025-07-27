@@ -11,9 +11,25 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-92-!fi%*w+fn+t2603bvs(pe0!5!m)k%c_^enmfb)suqhoggz2'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False  # Only in production
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['http://127.0.0.1:8000']  # Replace with your domain or IP address
+
+# Prevent XSS
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+# Prevent Clickjacking
+X_FRAME_OPTIONS = 'DENY'
+
+# Use HTTPS (for production with HTTPS configured)
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+
+# Enable HSTS (optional for HTTPS)
+SECURE_HSTS_SECONDS = 31536000  # 1 year
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
 
 
 # Application definition
@@ -26,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'bookshelf',  # This is the app for managing books
+    'csp',  # Content Security Policy app
    # 'relationship_app', This is the app for managing relationships'
 ]
 
@@ -46,6 +63,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'csp.middleware.CSPMiddleware'  # Content Security Policy middleware
 ]
 
 ROOT_URLCONF = 'LibraryProject.urls'
