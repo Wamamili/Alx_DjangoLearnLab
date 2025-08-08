@@ -11,12 +11,21 @@ class Author(models.Model):
         return self.name
 
 # Book model stores details of books written by authors
+# models.py
+from django.contrib.auth.models import User
+
 class Book(models.Model):
-    title = models.CharField(max_length=255)  # Book title
-    publication_year = models.IntegerField()  # Year of publication
+    title = models.CharField(max_length=255)
+    publication_year = models.IntegerField(default=2020)
     author = models.ForeignKey(Author, related_name='books', on_delete=models.CASCADE)
-    # related_name='books' allows reverse lookup: author.books.all()
+    created_by = models.ForeignKey(
+        User,
+        related_name='books_created',
+        on_delete=models.CASCADE,
+        default=1  # Default to user with ID 1
+    )
 
     def __str__(self):
         return f"{self.title} ({self.publication_year})"
-# Review model stores reviews for books
+# This model includes a foreign key to the Author model
+# and a foreign key to the User model to track who created the book record.

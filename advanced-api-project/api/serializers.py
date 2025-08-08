@@ -9,6 +9,8 @@ class BookSerializer(serializers.ModelSerializer):
     class Meta:
         model = Book
         fields = ['id', 'title', 'publication_year', 'author']
+        read_only_fields = ['id', 'created_by']
+
 
     # Custom validation to prevent future publication years
     def validate_publication_year(self, value):
