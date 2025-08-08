@@ -15,7 +15,7 @@ from .models import Book
 from .serializers import BookSerializer
 from .permissions import IsOwner
 from django.shortcuts import render
-from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated"
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 
 
 def index(request):
