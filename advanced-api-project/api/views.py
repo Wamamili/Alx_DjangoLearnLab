@@ -22,11 +22,30 @@ def index(request):
     return render(request, 'index.html')
 
 # List all books - public access
+
+from rest_framework import generics, permissions, filters
+from django_filters.rest_framework import DjangoFilterBackend
+from .models import Book
+from .serializers import BookSerializer
+
 class BookListView(generics.ListAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     permission_classes = [permissions.AllowAny]
 
+
+    # DRF filtering, search, and ordering configuration
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+
+    # Fields allowed for filtering
+    filterset_fields = ['title', 'author', 'publication_year']
+
+    # Fields allowed for search
+    search_fields = ['title', 'author']
+
+    # Fields allowed for ordering
+    ordering_fields = ['title', 'publication_year']
+    ordering = ['title']  # default ordering
 
 # Retrieve single book by ID - public access
 class BookDetailView(generics.RetrieveAPIView):
