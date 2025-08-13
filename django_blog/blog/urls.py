@@ -9,7 +9,8 @@ from .views import (
     profile,
     profile_edit,
     PostListView, PostDetailView, PostCreateView, PostUpdateView, PostDeleteView,
-    CommentCreateView, CommentUpdateView, CommentDeleteView
+    CommentCreateView, CommentUpdateView, CommentDeleteView,
+    PostByTagListView
 )
 
 urlpatterns = [
@@ -30,4 +31,5 @@ urlpatterns = [
     path("comment/<int:pk>/delete/", CommentDeleteView.as_view(), name="comment-delete"),
     path('tags/<slug:tag_slug>/', views.post_list_by_tag, name='post-by-tag'),
     path('search/', views.search_posts, name='search-posts'),
+    path('tag/<str:tag>/', PostByTagListView.as_view(), name='posts_by_tag'),
 ]
