@@ -8,7 +8,7 @@ from .views import (
     register,
     profile,
     profile_edit,
-    
+    PostListView, PostDetailView, PostCreateView, PostUpdateView, PostDeleteView
 )
 
 urlpatterns = [
@@ -18,4 +18,9 @@ urlpatterns = [
     path("register/", register, name="register"),
     path("profile/", profile, name="profile"),
     path("profile/edit/", profile_edit, name="profile_edit"),
+    path("posts/", PostListView.as_view(), name="post-list"),
+    path("posts/<int:pk>/", PostDetailView.as_view(), name="post-detail"),
+    path("posts/new/", PostCreateView.as_view(), name="post-create"),
+    path("posts/<int:pk>/edit/", PostUpdateView.as_view(), name="post-update"),
+    path("posts/<int:pk>/delete/", PostDeleteView.as_view(), name="post-delete"),
 ]
