@@ -10,6 +10,8 @@ from .models import Post
 from .forms import PostForm
 from .models import Post, Comment
 from .forms import CommentForm
+from django.db.models import Q
+from taggit.models import Tag
 
 
 
@@ -103,6 +105,7 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return self.request.user == post.author
     
     
+    
 
 class CommentCreateView(LoginRequiredMixin, CreateView):
     model = Comment
@@ -140,4 +143,21 @@ class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def get_success_url(self):
         return self.object.post.get_absolute_url()
 
+
+# List posts by tag
+def post_list_by_tag(request, tag_slug):
+    tag = get_object_or_404(Tag, slug=tag_slug)
+    posts = Post.objects.filter(tags__in=[tag])
+    return render(request, 'blog/post_list.html', {'posts': posts, 'tag': tag})
+
+def search_posts(request):
+    query = request.GET.get('q')
+    results = []
+    if query:
+        results = Post.objects.filter(
+            Q(title__icontains=query) |
+            Q(content__icontains=query) |
+            Q(tags__name__icontains=query)
+        ).distinct()
+    return render(request, 'blog/search_results.html', {'query': query, 'results': results})
 
