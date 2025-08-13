@@ -2,30 +2,16 @@
 {% block title %}Register{% endblock %}
 {% block content %}
 <h2>Create your account</h2>
-<form method="post" novalidate>
-  {% csrf_token %}
-  {{ form.non_field_errors }}
-  <div>
-    <label>Username</label>
-    {{ form.username }}
-    {{ form.username.errors }}
-  </div>
-  <div>
-    <label>Email</label>
-    {{ form.email }}
-    {{ form.email.errors }}
-  </div>
-  <div>
-    <label>Password</label>
-    {{ form.password1 }}
-    {{ form.password1.errors }}
-  </div>
-  <div>
-    <label>Confirm Password</label>
-    {{ form.password2 }}
-    {{ form.password2.errors }}
-  </div>
-  <button type="submit">Sign up</button>
+<form method="post">
+    {% csrf_token %}
+    <label for="username">Username:</label>
+    <input type="text" name="username" id="username">
+
+    <label for="password">Password:</label>
+    <input type="password" name="password" id="password">
+
+    <button type="submit">Register</button>
 </form>
+
 <p>Have an account? <a href="{% url 'login' %}">Login</a></p>
 {% endblock %}
