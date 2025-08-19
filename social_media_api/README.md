@@ -1,13 +1,11 @@
-# Social Media API
+### Running API Tests
+The API has unit tests for CRUD, filtering, searching, ordering, and permissions.
 
-## Setup
-1. Clone repo
-2. Create virtual environment
-3. pip install -r requirements.txt
-4. python manage.py migrate
-5. python manage.py runserver
+Run tests:
+    python manage.py test api
 
-## Endpoints
-- POST /api/accounts/register/
-- POST /api/accounts/login/
-- GET/PUT /api/accounts/profile/
+Examples:
+- Create Book: POST /api/books/
+- Filter Books: GET /api/books/?author=Author A
+- Search Books: GET /api/books/?search=Book One
+- Order Books: GET /api/books/?ordering=publication_year
