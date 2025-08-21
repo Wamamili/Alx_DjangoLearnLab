@@ -1,3 +1,6 @@
+# User model for the social media API
+# This model extends the AbstractUser to include additional fieldsS
+
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
