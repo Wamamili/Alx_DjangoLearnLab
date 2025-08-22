@@ -1,12 +1,13 @@
 # Views for user authentication and registration
 # These views handle the registration, login, and profile management of users
 
-from rest_framework import generics, status
+from rest_framework import generics, status, permissions
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.contrib.auth import get_user_model
 from rest_framework.authtoken.models import Token
 from .serializers import RegisterSerializer, LoginSerializer, UserSerializer
+from rest_framework.views import APIView
 
 User = get_user_model()
 
@@ -37,3 +38,36 @@ class ProfileView(generics.RetrieveUpdateAPIView):
 
     def get_object(self):
         return self.request.user
+    
+
+class FollowUserView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, user_id):
+        try:
+            target_user = User.objects.get(id=user_id)
+        except User.DoesNotExist:
+            return Response({"detail": "User not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        if target_user == request.user:
+            return Response({"detail": "You cannot follow yourself"}, status=status.HTTP_400_BAD_REQUEST)
+
+        request.user.follow(target_user)
+        return Response({"detail": f"You are now following {target_user.username}"}, status=status.HTTP_200_OK)
+
+
+class UnfollowUserView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, user_id):
+        try:
+            target_user = User.objects.get(id=user_id)
+        except User.DoesNotExist:
+            return Response({"detail": "User not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        if target_user == request.user:
+            return Response({"detail": "You cannot unfollow yourself"}, status=status.HTTP_400_BAD_REQUEST)
+
+        request.user.unfollow(target_user)
+        return Response({"detail": f"You have unfollowed {target_user.username}"}, status=status.HTTP_200_OK)
+

@@ -14,3 +14,13 @@
 
 ## Auth
 Use "Authorization: Token <token>" in headers.
+# Follow & Feed
+
+## Endpoints
+- POST /api/accounts/follow/<user_id>/  (auth required)
+- POST /api/accounts/unfollow/<user_id>/  (auth required)
+- GET /api/feed/  (auth required) → returns posts from followed users
+
+## Notes
+- Users cannot follow/unfollow themselves
+- Feed ordered by newest posts
