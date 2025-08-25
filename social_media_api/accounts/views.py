@@ -9,7 +9,7 @@ from django.contrib.auth import get_user_model
 from rest_framework.authtoken.models import Token
 from .serializers import RegisterSerializer, LoginSerializer, UserSerializer
 from rest_framework.views import APIView
-from .models import CustomUser
+from .models import User as CustomUser
 
 User = get_user_model()
 
