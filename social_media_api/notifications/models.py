@@ -4,13 +4,26 @@ from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 
 class Notification(models.Model):
-    recipient = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="notifications")
-    actor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="actor_notifications")
+    recipient = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="notifications"
+    )
+    actor = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="actor_notifications"
+    )
     verb = models.CharField(max_length=255)  # "liked your post", "started following you"
-    target_content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, null=True, blank=True)
+    target_content_type = models.ForeignKey(
+        ContentType,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True
+    )
     target_object_id = models.PositiveIntegerField(null=True, blank=True)
     target = GenericForeignKey("target_content_type", "target_object_id")
-    created_at = models.DateTimeField(auto_now_add=True)
+    timestamp = models.DateTimeField(auto_now_add=True)  # renamed from created_at
     read = models.BooleanField(default=False)
 
     def __str__(self):
